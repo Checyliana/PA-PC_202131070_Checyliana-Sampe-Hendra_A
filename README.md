@@ -17,17 +17,25 @@ Transformasi Hough: Metode ini mengubah ruang piksel menjadi ruang parameter gar
     import numpy as np
     import matplotlib.pyplot as plt
 
-Import library Program dimulai dengan mengimpor library yang diperlukan, yaitu cv2 (OpenCV) dan numpy. OpenCV adalah library populer untuk pengolahan citra dan komputerisasi penglihatan, sedangkan numpy digunakan untuk manipulasi array numerik
+import cv2, mengimport modul OpenCV. import numpy as np, mengimport modul NumPy. NumPy merupakan library yang digunakan untuk komputasi numerik dalam Python. import matplotlib.pyplot as plt, mengimport modul pyplot dari library Matplotlib dengan alias plt. Matplotlib adalah library untuk visualisasi data dalam Python
 
-    ray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.imread("hp.jpeg")
+
+cv2.imread("hp.jpeg") mengambil gambar dengan nama file "hp.jpeg" dan membacanya ke dalam bentuk matriks/array menggunakan fungsi imread dari OpenCV dengan variabel image.
+
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     tepi = cv2.Canny(gray, 30, 150)
     kontur,_= cv2.findContours(tepi,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-Program ini melanjutkan dari tahap sebelumnya, di mana gambar telah dikonversi ke skala keabuan (grayscale) dan tepi telah terdeteksi menggunakan algoritma Canny. Fungsi cv2.findContours() adalah untuk menemukan kontur (bentuk atau garis tepi) dalam gambar menggunakan pendekatan tertentu
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), mengkonversi gambar image dari mode warna BGR (Blue-Green-Red) ke mode grayscale (skala keabuan) menggunakan fungsi cvtColor dari OpenCV.
+tepi = cv2.Canny(gray, 30, 150), menggunakan metode Canny pada gambar gray untuk mendeteksi tepi gambar.kontur, _ = cv2.findContours(tepi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE), menggunakan fungsi cv2.findContours untuk menemukan kontur pada gambar tepi tepi
 
-imgor = np.copy(image): Membuat salinan dari gambar asli (image) menggunakan fungsi np.copy(). Hal ini dilakukan untuk menghindari mengubah gambar asli saat menggambar kontur.
+    imgor = np.copy(image)
+    cv2.drawContours(imgor, kontur, -1, (0, 0, 255), 3)
+    imgwhite = np.ones_like(image)*255
+    cv2.drawContours(imgwhite, kontur, -1, (0, 0, 255), 3)
 
-cv2.drawContours(imgor, kontur, -1, (0, 0, 255), 3): Menggambar kontur pada gambar imgor dengan menggunakan fungsi cv2.drawContours(). Argumen yang digunakan adalah imgor sebagai gambar target, kontur sebagai daftar kontur yang ditemukan sebelumnya, -1 untuk menggambar semua kontur dalam daftar, (0, 0, 255) sebagai warna garis (dalam urutan BGR, yaitu warna merah), dan 3 sebagai ketebalan garis.
+imgor = np.copy(image), membuat salinan dari gambar image menggunakan fungsi np.copy dari NumPy.cv2.drawContours(imgor, kontur, -1, (0, 0, 255), 3) ,menggambar kontur pada gambar imgor menggunakan fungsi cv2.drawContours dari OpenCV,imgwhite = np.ones_like(image)*255, membuat gambar berukuran dan jenis yang sama dengan image menggunakan fungsi np.ones_like dari NumPy.cv2.drawContours(imgwhite, kontur, -1, (0, 0, 255), 3)menggambar kontur pada gambar imgwhite menggunakan fungsi cv2.drawContours
 
     fig, axes = plt.subplots(1, 3, figsize = (10, 11))
     ax = axes.ravel()
